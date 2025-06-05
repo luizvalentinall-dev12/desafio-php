@@ -71,6 +71,8 @@ Boa sorte! 🚀
 
 comando para executar o docker 
 
+´´´
 docker-compose up -d
 
 docker exec -it laravel_app composer install
+´´´
