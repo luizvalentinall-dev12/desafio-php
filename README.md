@@ -19,7 +19,7 @@ O objetivo deste teste é desenvolver uma **API Rest** para o cadastro de client
 
 - Editar um cliente
 - Excluir um cliente
-- Listar clientes (paginação, filtro por nome, CPF e CEP)
+- Listar clientes 
 
 ---
 
