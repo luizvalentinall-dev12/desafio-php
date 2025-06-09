@@ -1,78 +1,159 @@
-  # **Teste para Desenvolvedor: API de Cadastro de Clientes com Validação de CEP**
+  # **API de Cadastro de Clientes com Validação de CEP**
 
-O objetivo deste teste é desenvolver uma **API Rest** para o cadastro de clientes, garantindo que o cliente esteja em um CEP valido.
+API para cadastro de clientes com validação de CPF e CEP.
 
 ---
 
-## **Descrição do Projeto**
+## **Funcionalidades**
 
-### **Backend (API Laravel)**
-
-#### **Cadastro de Clientes**
-- Criar um cliente com as seguintes informações:
-  - Nome completo
-  - CPF (validado, único no banco)
-  - E-mail (validado, único no banco)
-  - Telefone
-  - CEP 
-  - Endereço (logradouro, bairro, cidade, estado)
-
+- Criar um cliente
 - Editar um cliente
 - Excluir um cliente
 - Listar clientes 
 
 ---
 
-### **Migrations**
-- Utilize migrations do Laravel para definir a estrutura do banco de dados, garantindo uma boa organização e facilidade de manutenção.
-
----
-
-### **Requisitos**
-- **Validar CPF** (formato correto e não permitir duplicação).
-- **Validar e-mail** (formato correto e não permitir duplicação).
-- **Validar endereço automaticamente** via [BrasilAPI](https://brasilapi.com.br/docs#tag/CEP-V2) ou qualquer outro endpoint público ao inserir ou atualizar um cliente.
-
-
----
-
-## **Critérios de Avaliação**
-- **Adesão aos requisitos funcionais e técnicos**
-- **Qualidade do código** (organização, padrões)
-- **Uso adequado do Laravel (migrations, validações, etc.)**
-- **README bem estruturado** com instruções de instalação e uso
-
----
-
-## **Tecnologias a serem utilizadas**
+## **Tecnologias**
 - **PHP 8.x**
 - **Laravel 10.x**
 - **Banco de Dados**: MySQL
+- **Docker**
 
 ---
 
-## **Extra**
-- **Implementação de cache** para otimizar o desempenho 
+## Instalação e Execução
 
----
+1. Clonar o repositório:
 
-## **Entrega**
-1. Faça um **fork** deste repositório.
-2. Crie uma **branch** com o seu nome.
-3. Altere o **README.md** com as instruções para rodar o projeto (comandos necessários, migrations, seeds, etc.).
-4. Após finalizar, envie um **pull request** para avaliação.
-
----
-
-
-Boa sorte! 🚀
-
-
-
-comando para executar o docker 
-
+```bash
+git clone <url-do-seu-repo>
+cd <nome-do-repo>
 ```
+
+2. Copiar o arquivo de ambiente:
+```bash
+cp .env.example .env
+```
+
+3. Subir containers Docker e instalar as dependências:
+```bash
 docker-compose up -d
 
 docker exec -it laravel_app composer install
 ```
+
+4. Executar as migrations:
+```bash
+docker exec -it laravel_app php artisan migrate
+```
+
+---
+
+## API
+
+#### URL
+```
+http://localhost:8181
+```
+
+### Endpoints
+**1. Criar cliente** (**POST** `/api/clientes`)
+
+**Body:**
+```json
+{
+  "nome_completo": "Nome completo",
+  "cpf": "98765432100",
+  "email": "nomecompleto@email.com",
+  "telefone": "48999998888",
+  "cep": "88058340"
+}
+```
+
+**Resposta:**
+```json
+{
+    "message": "Cliente criado com sucesso.",
+    "cliente": {
+        "id": "1",
+        "nome_completo": "Nome completo",
+        "cpf": "98765432100",
+        "email": "nomecompleto@email.com",
+        "telefone": "48999998888",
+        "cep": "88058340",
+        "logradouro": "Servidão Netuno",
+        "bairro": "Ingleses do Rio Vermelho",
+        "cidade": "Florianópolis",
+        "estado": "SC"
+    }
+}
+```
+
+**2. Editar cliente** (**PUT** `/api/clientes/{id}`)
+
+**Body:**
+```json
+{
+  "nome_completo": "Nome completo",
+  "cpf": "98765432100",
+  "email": "nomecompleto@email.com",
+  "telefone": "48999998888",
+  "cep": "88058340"
+}
+```
+
+**Resposta:**
+```json
+{
+    "message": "Cliente editado com sucesso.",
+    "cliente": {
+        "id": "1",
+        "nome_completo": "Nome completo",
+        "cpf": "98765432100",
+        "email": "nomecompleto@email.com",
+        "telefone": "48999998888",
+        "cep": "88058340",
+        "logradouro": "Servidão Netuno",
+        "bairro": "Ingleses do Rio Vermelho",
+        "cidade": "Florianópolis",
+        "estado": "SC"
+    }
+}
+```
+
+**3. Excluir cliente** (**POST** `/api/clientes/{id}`)
+
+**Resposta:**
+```json
+{
+  "message": "Cliente excluído com sucesso."
+}
+```
+
+**4. Listar clientes** (**GET** `/api/clientes`)
+
+**Resposta:**
+```json
+{
+    "data": [
+        {
+          "id": "1",
+          "nome_completo": "Nome completo",
+          "cpf": "98765432100",
+          "email": "nomecompleto@email.com",
+          "telefone": "48999998888",
+          "cep": "88058340",
+          "logradouro": "Servidão Netuno",
+          "bairro": "Ingleses do Rio Vermelho",
+          "cidade": "Florianópolis",
+          "estado": "SC"
+        },
+    ]
+}
+```
+
+---
+
+## Testes
+
+Para testar os endpoints pode ser utilizado o Postman.
